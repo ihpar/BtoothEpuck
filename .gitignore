@@ -7,3 +7,5 @@
 /Include
 /Lib
 /Scripts
+/.idea/
+/pyvenv.cfg
