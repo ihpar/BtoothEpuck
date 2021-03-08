@@ -189,7 +189,7 @@ def main():
         thread.start()
 
     while curr_iteration < (target_iteration * num_robots):
-        print(f'+++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} +++++++++')
+        print(f'++++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} ++++++++++')
 
         speaker_robots = choose_speaker(curr_iteration)
         listener_robots = choose_listeners(curr_iteration, is_random=True, is_balanced=True)
