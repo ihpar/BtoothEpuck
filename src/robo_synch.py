@@ -113,6 +113,8 @@ def manage_robot(robot, robot_index):
         if thanos_snap:
             break
 
+        msg = f'Pass {i}\n'
+
         if robot_index in idle_robots:
             robot.set_status('i')
         elif robot_index in listener_robots:
@@ -120,7 +122,6 @@ def manage_robot(robot, robot_index):
         elif robot_index in speaker_robots:
             robot.set_status('s')
 
-        msg = f'Pass {i}\n'
         while 'X' not in msg:
             msg += robot.get_message()
 

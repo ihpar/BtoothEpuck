@@ -37,6 +37,9 @@ class Robot:
         self._status = status
         self.send_message(status)
 
+    def get_status(self):
+        return self._status
+
     def dump_message_log(self):
         with open('log_' + self.get_name() + '.txt', 'w') as log_file:
             log_file.write(f'I am {self.get_name()}' + '\n')
