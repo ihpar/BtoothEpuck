@@ -23,11 +23,12 @@ class Robot:
         print(f'{self.get_name()} connected')
 
     def send_message(self, message):
-        self._sock.send(f'{message}\n')
+        self._sock.send(message)
 
-    def get_message(self):
-        data = self._sock.recv(1024 * 1024)
-        data = data.decode('ascii')
+    def get_message(self, decode_ascii=True):
+        data = self._sock.recv(1024 * 8)
+        if decode_ascii:
+            data = data.decode('ascii')
         return data
 
     def add_message_log_entry(self, msg):

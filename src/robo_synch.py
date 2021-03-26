@@ -59,8 +59,8 @@ def choose_listeners(iteration, is_random=False, is_balanced=False):
         listener_two = (iteration - 1) % num_robots
         result.append(listener_one)
         result.append(listener_two)
-    return result
-    # return [listener_one]
+    # return result
+    return [listener_one]
 
 
 def choose_idles(iteration, is_random=False):
@@ -77,8 +77,8 @@ def choose_idles(iteration, is_random=False):
         result.append(idle_index_one)
         result.append(idle_index_two)
         result.append(idle_index_three)
-    return result
-    # return [-1]
+    # return result
+    return [-1]
 
 
 def manage_robot(robot, robot_index):
@@ -87,16 +87,20 @@ def manage_robot(robot, robot_index):
     robot.connect()
 
     # initial acknowledgement
-    robot.set_status('i')
-    msg = ''
-    while 'X' not in msg:
-        msg = robot.get_message()
+    robot.send_message("T")
+    print(robot.get_message())
+
+    # robot.set_status('i')
+    # msg = ''
+    # while 'X' not in msg:
+    #    msg = robot.get_message()
 
     # sending random seed
-    robot.send_message(random.randint(1, 9999))
+    robot.send_message(f"r{random.randint(1, 999)}T")
     msg = ''
     while 'X' not in msg:
         msg = robot.get_message()
+    print(msg)
 
     # initial sync
     thread_lock.acquire()
@@ -116,16 +120,15 @@ def manage_robot(robot, robot_index):
         msg = f'Pass {i}\n'
 
         if robot_index in idle_robots:
-            robot.set_status('i')
+            robot.set_status('iT')
         elif robot_index in listener_robots:
-            robot.set_status('l')
+            robot.set_status('lT')
         elif robot_index in speaker_robots:
-            robot.set_status('s')
+            robot.set_status('sT')
 
         while 'X' not in msg:
             msg += robot.get_message()
-
-        robot.add_message_log_entry(msg)
+        robot.add_message_log_entry(msg + "\n")
         print('========================')
         print(f'{robot.get_name()}')
         print(msg)
@@ -167,16 +170,16 @@ def main():
     global idle_robots, listener_robots, speaker_robots, num_robots, robot_main_loop_permits, thanos_snap
 
     robots = [
-        Robot('10:00:E8:C5:61:7E', 'e_3228'),  # 3
-        Robot('10:00:E8:C5:62:03', 'e_3120'),  # 6
-        Robot('10:00:E8:C5:64:34', 'e_3121'),  # 8
-        Robot('10:00:E8:C5:61:8C', 'e_3311'),  # 10
-        Robot('10:00:E8:C5:64:73', 'e_2870'),  # 11
-        Robot('10:00:E8:C5:64:75', 'e_2858')  # 14
+        Robot('10:00:E8:C5:61:7E', 'e_3228'),  # 4
+        Robot('10:00:E8:C5:62:03', 'e_3120')  # 5
+        # Robot('10:00:E8:C5:64:34', 'e_3121'),  # 8
+        # Robot('10:00:E8:C5:61:8C', 'e_3311'),  # 10
+        # Robot('10:00:E8:C5:64:73', 'e_2870'),  # 11
+        # Robot('10:00:E8:C5:64:75', 'e_2858')  # 14
     ]
 
     curr_iteration = 0
-    target_iteration = 60
+    target_iteration = 2
     num_robots = len(robots)
 
     for i in range(num_robots):
