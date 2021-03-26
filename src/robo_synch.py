@@ -59,8 +59,8 @@ def choose_listeners(iteration, is_random=False, is_balanced=False):
         listener_two = (iteration - 1) % num_robots
         result.append(listener_one)
         result.append(listener_two)
-    # return result
-    return [listener_one]
+    return result
+    # return [listener_one]
 
 
 def choose_idles(iteration, is_random=False):
@@ -77,8 +77,8 @@ def choose_idles(iteration, is_random=False):
         result.append(idle_index_one)
         result.append(idle_index_two)
         result.append(idle_index_three)
-    # return result
-    return [-1]
+    return result
+    # return [-1]
 
 
 def manage_robot(robot, robot_index):
@@ -171,15 +171,15 @@ def main():
 
     robots = [
         Robot('10:00:E8:C5:61:7E', 'e_3228'),  # 4
-        Robot('10:00:E8:C5:62:03', 'e_3120')  # 5
-        # Robot('10:00:E8:C5:64:34', 'e_3121'),  # 8
-        # Robot('10:00:E8:C5:61:8C', 'e_3311'),  # 10
-        # Robot('10:00:E8:C5:64:73', 'e_2870'),  # 11
-        # Robot('10:00:E8:C5:64:75', 'e_2858')  # 14
+        Robot('10:00:E8:C5:62:03', 'e_3120'),  # 5
+        Robot('10:00:E8:C5:64:34', 'e_3121'),  # 7
+        Robot('10:00:E8:C5:61:8C', 'e_3311'),  # 9
+        Robot('10:00:E8:C5:64:73', 'e_2870'),  # 11
+        Robot('10:00:E8:C5:64:75', 'e_2858')  # 13
     ]
 
     curr_iteration = 0
-    target_iteration = 2
+    target_iteration = 60
     num_robots = len(robots)
 
     for i in range(num_robots):
