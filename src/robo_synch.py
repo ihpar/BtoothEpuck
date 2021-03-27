@@ -196,8 +196,8 @@ def main():
         print(f'++++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} ++++++++++')
 
         speaker_robots = choose_speaker(curr_iteration)
-        listener_robots = choose_listeners(curr_iteration, is_random=False, is_balanced=False)
-        idle_robots = choose_idles(curr_iteration, is_random=False)
+        listener_robots = choose_listeners(curr_iteration, is_random=True, is_balanced=True)
+        idle_robots = choose_idles(curr_iteration, is_random=True)
 
         start_iteration()
         iteration_completed.wait()
