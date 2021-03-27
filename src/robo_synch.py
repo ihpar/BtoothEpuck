@@ -16,16 +16,13 @@ all_robots_connected = Event()
 robot_main_loop_permits = []
 
 
-def choose_speaker(iteration, is_random=False):
+def choose_speaker(iteration):
     global num_robots
-    if is_random:
-        speaker_index = random.randint(0, num_robots - 1)
-    else:
-        speaker_index = iteration % num_robots
+    speaker_index = iteration % num_robots
     return [speaker_index]
 
 
-def choose_speakers():
+def choose_2_random_speakers():
     global num_robots
     result = []
     speaker_one = random.randint(0, num_robots - 1)
@@ -39,35 +36,25 @@ def choose_speakers():
     return result
 
 
-def choose_listeners(iteration, is_random=False, is_balanced=False):
+def choose_listeners(iteration, is_random=False):
     global num_robots, previous_listeners
     result = []
     if is_random:
-        if is_balanced:
 
-            while True:
-                listener_one = random.randint(0, num_robots - 1)
-                if (listener_one not in speaker_robots) and (listener_one not in previous_listeners):
-                    result.append(listener_one)
-                    break
+        while True:
+            listener_one = random.randint(0, num_robots - 1)
+            if (listener_one not in speaker_robots) and (listener_one not in previous_listeners):
+                result.append(listener_one)
+                break
 
-            while True:
-                listener_two = random.randint(0, num_robots - 1)
-                if (listener_two not in speaker_robots) and (listener_two not in previous_listeners) and (listener_two not in result):
-                    result.append(listener_two)
-                    break
-            previous_listeners[0] = result[0]
-            previous_listeners[1] = result[1]
-        else:
-            listener_one = speaker_robots[0]
-            while listener_one in speaker_robots:
-                listener_one = random.randint(0, num_robots - 1)
-            result.append(listener_one)
+        while True:
+            listener_two = random.randint(0, num_robots - 1)
+            if (listener_two not in speaker_robots) and (listener_two not in previous_listeners) and (listener_two not in result):
+                result.append(listener_two)
+                break
+        previous_listeners[0] = result[0]
+        previous_listeners[1] = result[1]
 
-            listener_two = speaker_robots[0]
-            while (listener_two in speaker_robots) or (listener_two == listener_one):
-                listener_two = random.randint(0, num_robots - 1)
-            result.append(listener_two)
     else:
         listener_one = (iteration + 1) % num_robots
         listener_two = (iteration - 1) % num_robots
@@ -203,8 +190,8 @@ def main():
     while curr_iteration < (target_iteration * num_robots):
         print(f'++++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} ++++++++++')
         speaker_robots = choose_speaker(curr_iteration)
-        # speaker_robots = choose_speakers()
-        listener_robots = choose_listeners(curr_iteration, is_random=False, is_balanced=False)
+        # speaker_robots = choose_2_random_speakers()
+        listener_robots = choose_listeners(curr_iteration, is_random=False)
         idle_robots = choose_idles()
         print(speaker_robots, listener_robots, idle_robots)
 
