@@ -77,20 +77,14 @@ def choose_listeners(iteration, is_random=False, is_balanced=False):
     # return [listener_one]
 
 
-def choose_idles(iteration, is_random=False):
+def choose_idles():
     result = []
-    if is_random:
-        for i in range(num_robots):
-            if (i in listener_robots) or (i in speaker_robots):
-                continue
-            result.append(i)
-    else:
-        idle_index_one = (iteration + 2) % num_robots
-        idle_index_two = (iteration + 3) % num_robots
-        idle_index_three = (iteration + 4) % num_robots
-        result.append(idle_index_one)
-        result.append(idle_index_two)
-        result.append(idle_index_three)
+
+    for i in range(num_robots):
+        if (i in listener_robots) or (i in speaker_robots):
+            continue
+        result.append(i)
+
     return result
     # return [-1]
 
@@ -193,7 +187,7 @@ def main():
     ]
 
     curr_iteration = 0
-    target_iteration = 60
+    target_iteration = 20
     num_robots = len(robots)
 
     for i in range(num_robots):
@@ -208,10 +202,10 @@ def main():
 
     while curr_iteration < (target_iteration * num_robots):
         print(f'++++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} ++++++++++')
-        # speaker_robots = choose_speaker(curr_iteration)
-        speaker_robots = choose_speakers()
-        listener_robots = choose_listeners(curr_iteration, is_random=True, is_balanced=False)
-        idle_robots = choose_idles(curr_iteration, is_random=True)
+        speaker_robots = choose_speaker(curr_iteration)
+        # speaker_robots = choose_speakers()
+        listener_robots = choose_listeners(curr_iteration, is_random=False, is_balanced=False)
+        idle_robots = choose_idles()
         print(speaker_robots, listener_robots, idle_robots)
 
         start_iteration()
