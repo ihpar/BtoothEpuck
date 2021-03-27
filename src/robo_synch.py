@@ -25,6 +25,20 @@ def choose_speaker(iteration, is_random=False):
     return [speaker_index]
 
 
+def choose_speakers():
+    global num_robots
+    result = []
+    speaker_one = random.randint(0, num_robots - 1)
+    result.append(speaker_one)
+    while True:
+        speaker_two = random.randint(0, num_robots - 1)
+        if speaker_two not in result:
+            result.append(speaker_two)
+            break
+
+    return result
+
+
 def choose_listeners(iteration, is_random=False, is_balanced=False):
     global num_robots, previous_listeners
     result = []
@@ -194,10 +208,11 @@ def main():
 
     while curr_iteration < (target_iteration * num_robots):
         print(f'++++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} ++++++++++')
-
-        speaker_robots = choose_speaker(curr_iteration)
-        listener_robots = choose_listeners(curr_iteration, is_random=True, is_balanced=True)
+        # speaker_robots = choose_speaker(curr_iteration)
+        speaker_robots = choose_speakers()
+        listener_robots = choose_listeners(curr_iteration, is_random=True, is_balanced=False)
         idle_robots = choose_idles(curr_iteration, is_random=True)
+        print(speaker_robots, listener_robots, idle_robots)
 
         start_iteration()
         iteration_completed.wait()
