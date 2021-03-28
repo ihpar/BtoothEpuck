@@ -174,7 +174,7 @@ def main():
     ]
 
     curr_iteration = 0
-    target_iteration = 20
+    target_iteration = 50
     num_robots = len(robots)
 
     for i in range(num_robots):
