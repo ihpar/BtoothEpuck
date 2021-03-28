@@ -4,6 +4,7 @@ import random
 
 idle_robots, listener_robots, speaker_robots = [], [], []
 previous_listeners = [-1, -1]
+previous_speakers = [-1, -1]
 thanos_snap = False
 num_complete_tasks = 0
 num_robots = 0
@@ -23,15 +24,23 @@ def choose_speaker(iteration):
 
 
 def choose_2_random_speakers():
-    global num_robots
+    global num_robots, previous_speakers
     result = []
-    speaker_one = random.randint(0, num_robots - 1)
-    result.append(speaker_one)
+
+    while True:
+        speaker_one = random.randint(0, num_robots - 1)
+        if speaker_one not in previous_speakers:
+            result.append(speaker_one)
+            break
+
     while True:
         speaker_two = random.randint(0, num_robots - 1)
-        if speaker_two not in result:
+        if (speaker_two not in result) and (speaker_two not in previous_speakers):
             result.append(speaker_two)
             break
+
+    previous_speakers[0] = result[0]
+    previous_speakers[1] = result[1]
 
     return result
 
@@ -189,12 +198,11 @@ def main():
 
     while curr_iteration < (target_iteration * num_robots):
         print(f'++++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} ++++++++++')
-        speaker_robots = choose_speaker(curr_iteration)
-        # speaker_robots = choose_2_random_speakers()
+        # speaker_robots = choose_speaker(curr_iteration)
+        speaker_robots = choose_2_random_speakers()
         listener_robots = choose_listeners(curr_iteration, is_random=True)
         idle_robots = choose_idles()
         print(speaker_robots, listener_robots, idle_robots)
-
         start_iteration()
         iteration_completed.wait()
         curr_iteration += 1
