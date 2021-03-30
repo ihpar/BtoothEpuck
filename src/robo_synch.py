@@ -1,6 +1,7 @@
 from robot import Robot
 from threading import Thread, Lock, Event
 import random
+import time
 
 idle_robots, listener_robots, speaker_robots = [], [], []
 previous_listeners = [-1, -1]
@@ -94,11 +95,6 @@ def manage_robot(robot, robot_index):
     robot.send_message("T")
     print(robot.get_message())
 
-    # robot.set_status('i')
-    # msg = ''
-    # while 'X' not in msg:
-    #    msg = robot.get_message()
-
     # sending random seed
     robot.send_message(f"r{random.randint(1, 999)}T")
     msg = ''
@@ -171,6 +167,7 @@ def start_iteration():
 
 
 def main():
+    start = time.time()
     global idle_robots, listener_robots, speaker_robots, num_robots, robot_main_loop_permits, thanos_snap
 
     robots = [
@@ -216,6 +213,10 @@ def main():
         thread.join()
 
     print('Exiting main...')
+    end = time.time()
+    hours, rem = divmod(end - start, 3600)
+    minutes, seconds = divmod(rem, 60)
+    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
 
 
 if __name__ == '__main__':
