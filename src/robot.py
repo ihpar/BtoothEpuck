@@ -19,14 +19,14 @@ class Robot:
     def connect(self):
         self._sock = BluetoothSocket(RFCOMM)
         self._sock.connect((self._mac_addr, 1))
-        self._sock.settimeout(60)
+        self._sock.settimeout(90)
         print(f'{self.get_name()} connected')
 
     def send_message(self, message):
         self._sock.send(message)
 
     def get_message(self, decode_ascii=True):
-        data = self._sock.recv(1024 * 8)
+        data = self._sock.recv(1024 * 1024)
         if decode_ascii:
             data = data.decode('ascii')
         return data
