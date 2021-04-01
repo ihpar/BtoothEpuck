@@ -195,8 +195,8 @@ def main():
 
     while curr_iteration < (target_iteration * num_robots):
         print(f'++++++++++ Loop No {round(100 * curr_iteration / num_robots) / 100} ++++++++++')
-        # speaker_robots = choose_speaker(curr_iteration)
-        speaker_robots = choose_2_random_speakers()
+        speaker_robots = choose_speaker(curr_iteration)
+        # speaker_robots = choose_2_random_speakers()
         listener_robots = choose_listeners(curr_iteration, is_random=True)
         idle_robots = choose_idles()
         print(speaker_robots, listener_robots, idle_robots)
