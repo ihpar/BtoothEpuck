@@ -1,6 +1,6 @@
 2 speakers random
 2 listeners random
-limited memory
+unlimited memory
 
 r1 - 00:32:15.22
 r2 - 00:34:39.75
